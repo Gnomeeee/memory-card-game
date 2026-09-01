@@ -4,7 +4,7 @@ export default function Board({ cards, flipped, matched, onFlip }) {
   const isMisMatch = flipped.length === 2;
 
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-4 gap-1.5 sm:gap-2 md:gap-3 w-fit mx-auto">
       {cards.map((crd) => (
         <Card
           key={crd.id}

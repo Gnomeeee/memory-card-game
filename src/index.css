@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+.card-inner {
+  transform-style: preserve-3d;
+  transition: transform 0.4s;
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-back,
+.card-front {
+  backface-visibility: hidden;
+}
+
+.card-front {
+  transform: rotateY(180deg);
+}

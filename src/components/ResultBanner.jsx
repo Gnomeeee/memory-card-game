@@ -17,7 +17,7 @@ export default function ResultBanner({ totalMoves, seconds, onRestart }) {
     <>
       <div className="fixed inset-0 bg-black/40 z-40 transition-all duration-100"></div>
 
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-xl p-8 z-50 flex flex-col items-center gap-3 w-80 text-center">
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-xl p-6 sm:p-8 z-50 flex flex-col items-center gap-3 w-[85vw] max-w-80 text-center">
         <p className="text-2xl font-medium text-gray-800">{secondsMessage}</p>
         <p className="text-sm text-gray-500 leading-relaxed">
           Finished in <strong>{totalMoves} moves</strong> and {seconds} seconds

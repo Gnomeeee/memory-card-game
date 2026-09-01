@@ -1,12 +1,12 @@
 export default function GameStats({ moves, pairs, time, bestScore }) {
   return (
-    <div className="flex justify-between items-center mb-6">
+    <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-2 mb-6">
       <div>
         <h1 className="text-base font-medium text-gray-800">Memory game</h1>
         <p className="text-xs text-gray-400">Find all matching pairs</p>
       </div>
 
-      <div className="flex gap-2 text-center">
+      <div className="flex gap-1.5 sm:gap-2 text-center">
         <div className="bg-white border border-gray-200 px-4 py-2 rounded-xl text-center min-w-14 shadow-sm">
           <p className="text-base font-medium text-gray-800">{moves}</p>
           <p className="text-xs text-gray-400 mt-0.5">moves</p>

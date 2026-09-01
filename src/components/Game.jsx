@@ -78,7 +78,7 @@ export default function Game() {
   }
 
   return (
-    <div className="game-wrapper">
+    <div>
       <GameStats
         moves={moved}
         pairs={`${matched.length}/${cards.length / 2}`}

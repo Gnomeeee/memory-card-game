@@ -15,13 +15,26 @@ export default function Game() {
   const [time, setTime] = useState(0);
   const [moved, setMoved] = useState(0);
   const [started, setStarted] = useState(false);
+  const [bestScore, setBestScore] = useState(() => {
+    const storeBestScore = localStorage.getItem("bestScore");
+    return storeBestScore ? Number(storeBestScore) : null;
+  });
+
+  useEffect(() => {
+    const isFinished = matched.length === cards.length / 2 && cards.length > 0;
+    if (!isFinished) return;
+
+    if (bestScore === null || moved < bestScore) {
+      setBestScore(moved);
+      localStorage.setItem("bestScore", moved);
+    }
+  }, [matched]);
 
   useEffect(() => {
     if (!started || matched.length === cards.length / 2) return;
     const timer = setTimeout(() => {
       setTime((prev) => prev + 1);
     }, 1000);
-
     return () => clearTimeout(timer);
   }, [time, started, matched]);
 
@@ -70,6 +83,7 @@ export default function Game() {
         moves={moved}
         pairs={`${matched.length}/${cards.length / 2}`}
         time={time}
+        bestScore={bestScore}
       />
 
       {matched.length === cards.length / 2 && cards.length > 0 && (

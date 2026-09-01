@@ -1,4 +1,4 @@
-export default function GameStats({ moves, pairs, time }) {
+export default function GameStats({ moves, pairs, time, bestScore }) {
   return (
     <div className="flex justify-between items-center mb-6">
       <div>
@@ -18,6 +18,14 @@ export default function GameStats({ moves, pairs, time }) {
         <div className="bg-white border border-gray-200 px-4 py-2 rounded-xl text-center min-w-14 shadow-sm">
           <p className="text-base font-medium text-gray-800">{time}s</p>
           <p className="text-xs text-gray-400 mt-0.5">time</p>
+        </div>
+        <div className="bg-white border border-gray-200 px-4 py-2 rounded-xl text-center min-w-14 shadow-sm">
+          {bestScore !== null ? (
+            <p className="text-base font-medium text-gray-800">{bestScore}</p>
+          ) : (
+            <p className="text-base font-medium text-gray-800">0</p>
+          )}
+          <p className="text-xs text-gray-400 mt-0.5">best score</p>
         </div>
       </div>
     </div>

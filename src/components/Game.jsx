@@ -15,10 +15,16 @@ export default function Game({ difficulty, onBack }) {
   const [time, setTime] = useState(0);
   const [moved, setMoved] = useState(0);
   const [started, setStarted] = useState(false);
+  const bestScoreKey = `bestScore_${difficulty}`;
   const [bestScore, setBestScore] = useState(() => {
-    const storeBestScore = localStorage.getItem("bestScore");
+    const storeBestScore = localStorage.getItem(bestScoreKey);
     return storeBestScore ? Number(storeBestScore) : null;
   });
+
+  useEffect(() => {
+    const stored = localStorage.getItem(bestScoreKey);
+    setBestScore(stored ? Number(stored) : null);
+  }, [difficulty]);
 
   useEffect(() => {
     const isFinished = matched.length === cards.length / 2 && cards.length > 0;
@@ -26,7 +32,7 @@ export default function Game({ difficulty, onBack }) {
 
     if (bestScore === null || moved < bestScore) {
       setBestScore(moved);
-      localStorage.setItem("bestScore", moved);
+      localStorage.setItem(bestScoreKey, moved);
     }
   }, [matched]);
 

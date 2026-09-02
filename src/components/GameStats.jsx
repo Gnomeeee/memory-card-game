@@ -1,16 +1,19 @@
 export default function GameStats({ moves, pairs, time, bestScore, onBack }) {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-2 mb-6">
-      <div>
-        <button
-          onClick={onBack}
-          className="border border-gray-300 px-3 py-1 rounded-xl text-sm text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
-        >
-          &#8592; Back
-        </button>
-
-        <h1 className="text-base font-medium text-gray-800">Memory game</h1>
-        <p className="text-xs text-gray-400">Find all matching pairs</p>
+      <div className="flex gap-2 sm:gap-3 sm:flex-col flex-row">
+        <div>
+          <button
+            onClick={onBack}
+            className="border border-gray-300 px-3 py-1 rounded-xl text-sm text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
+          >
+            &#8592; Back
+          </button>
+        </div>
+        <div>
+          <h1 className="text-base font-medium text-gray-800">Memory game</h1>
+          <p className="text-xs text-gray-400">Find all matching pairs</p>
+        </div>
       </div>
 
       <div className="flex gap-1.5 sm:gap-2 text-center">

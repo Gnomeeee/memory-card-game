@@ -1,0 +1,15 @@
+Challenge 4 — Move limit medium
+
+Give the player a maximum number of moves based on difficulty. Show a "Game Over" dialog when they run out — same floating dialog pattern as ResultBanner. Add a progress bar showing remaining moves.
+
+Challenge 5 — Matched pair animation medium
+
+When a pair is matched, make the cards bounce or pulse briefly before settling into the cyan color. Use a CSS keyframe animation triggered by the isMatched class.
+
+Challenge 6 — Leaderboard stretch
+
+Store the top 5 scores in localStorage as an array. Show them on a leaderboard screen accessible from the main menu. Each entry shows rank, moves, time, and date played.
+
+Challenge 7 — Multiplayer (2 players) stretch
+
+Two players take turns. Track each player's matched pairs separately. When a player finds a match they get another turn. When all pairs are found, the player with more matches wins.

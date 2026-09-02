@@ -5,10 +5,10 @@ import allCards from "../data/cards";
 import { prepareCards } from "../utils/shuffle";
 import ResultBanner from "./ResultBanner";
 
-export default function Game() {
+export default function Game({ difficulty, onBack }) {
   const [cards, setCards] = useState(() => {
-    const shuffleCard = allCards;
-    return prepareCards(shuffleCard);
+    const levels = difficulty === "easy" ? 4 : difficulty === "medium" ? 8 : 12;
+    return prepareCards(allCards.slice(0, levels));
   });
   const [flipped, setFlipped] = useState([]);
   const [matched, setMatched] = useState([]);
@@ -69,12 +69,14 @@ export default function Game() {
   }
 
   function handleRestart() {
-    setCards(prepareCards(allCards));
+    const levels = difficulty === "easy" ? 4 : difficulty === "medium" ? 8 : 12;
+    setCards(prepareCards(allCards.slice(0, levels)));
     setFlipped([]);
     setMatched([]);
     setTime(0);
     setMoved(0);
     setStarted(false);
+    onBack();
   }
 
   return (
@@ -84,6 +86,7 @@ export default function Game() {
         pairs={`${matched.length}/${cards.length / 2}`}
         time={time}
         bestScore={bestScore}
+        onBack={onBack}
       />
 
       {matched.length === cards.length / 2 && cards.length > 0 && (

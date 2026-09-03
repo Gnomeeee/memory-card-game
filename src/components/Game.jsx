@@ -4,37 +4,44 @@ import Board from "./Board";
 import allCards from "../data/cards";
 import { prepareCards } from "../utils/shuffle";
 import ResultBanner from "./ResultBanner";
+import ProgressBar from "./ProgressBar";
+
+const DIFFICULTY_CONFIG = {
+  easy: { cardCount: 4, maxMoves: 10 },
+  medium: { cardCount: 8, maxMoves: 20 },
+  hard: { cardCount: 12, maxMoves: 25 },
+};
 
 export default function Game({ difficulty, onBack }) {
+  const { cardCount, maxMoves } = DIFFICULTY_CONFIG[difficulty];
+  const bestScoreKey = `bestScore_${difficulty}`;
+
   const [cards, setCards] = useState(() => {
-    const levels = difficulty === "easy" ? 4 : difficulty === "medium" ? 8 : 12;
-    return prepareCards(allCards.slice(0, levels));
+    return prepareCards(allCards.slice(0, cardCount));
   });
+
   const [flipped, setFlipped] = useState([]);
   const [matched, setMatched] = useState([]);
   const [time, setTime] = useState(0);
   const [moved, setMoved] = useState(0);
   const [started, setStarted] = useState(false);
-  const bestScoreKey = `bestScore_${difficulty}`;
   const [bestScore, setBestScore] = useState(() => {
     const storeBestScore = localStorage.getItem(bestScoreKey);
     return storeBestScore ? Number(storeBestScore) : null;
   });
 
-  useEffect(() => {
-    const stored = localStorage.getItem(bestScoreKey);
-    setBestScore(stored ? Number(stored) : null);
-  }, [difficulty]);
+  const isWon = matched.length === cards.length / 2 && cards.length > 0;
+  const isLost = moved >= maxMoves && !isWon;
 
   useEffect(() => {
-    const isFinished = matched.length === cards.length / 2 && cards.length > 0;
+    const isFinished = isWon;
     if (!isFinished) return;
 
     if (bestScore === null || moved < bestScore) {
       setBestScore(moved);
       localStorage.setItem(bestScoreKey, moved);
     }
-  }, [matched]);
+  }, [isWon]);
 
   useEffect(() => {
     if (!started || matched.length === cards.length / 2) return;
@@ -42,24 +49,22 @@ export default function Game({ difficulty, onBack }) {
       setTime((prev) => prev + 1);
     }, 1000);
     return () => clearTimeout(timer);
-  }, [time, started, matched]);
+  }, [time, started, isWon]);
 
   function handleFlip(id) {
+    if (isLost) return;
     if (!started) setStarted(true);
-
-    const card = cards.find((c) => c.id === id);
-
     if (flipped.length === 2) return;
     if (flipped.includes(id)) return;
+
+    const card = cards.find((c) => c.id === id);
     if (matched.includes(card.matchId)) return;
 
-    setFlipped((prev) => [...prev, id]);
-
     const newFlipped = [...flipped, id];
+    setFlipped(newFlipped);
 
     if (newFlipped.length === 2) {
       setMoved((prev) => prev + 1);
-
       const cardA = cards.find((c) => c.id === newFlipped[0]);
       const cardB = cards.find((c) => c.id === newFlipped[1]);
 
@@ -75,8 +80,7 @@ export default function Game({ difficulty, onBack }) {
   }
 
   function handleRestart() {
-    const levels = difficulty === "easy" ? 4 : difficulty === "medium" ? 8 : 12;
-    setCards(prepareCards(allCards.slice(0, levels)));
+    setCards(prepareCards(allCards.slice(0, cardCount)));
     setFlipped([]);
     setMatched([]);
     setTime(0);
@@ -88,6 +92,7 @@ export default function Game({ difficulty, onBack }) {
   return (
     <div>
       <GameStats
+        maxMoves={maxMoves}
         moves={moved}
         pairs={`${matched.length}/${cards.length / 2}`}
         time={time}
@@ -95,11 +100,15 @@ export default function Game({ difficulty, onBack }) {
         onBack={onBack}
       />
 
-      {matched.length === cards.length / 2 && cards.length > 0 && (
+      <ProgressBar moves={moved} maxMoves={maxMoves} />
+
+      {(isWon || isLost) && (
         <ResultBanner
           totalMoves={moved}
           seconds={time}
           onRestart={handleRestart}
+          maxMoves={maxMoves}
+          isWon={isWon}
         />
       )}
 

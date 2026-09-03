@@ -1,4 +1,11 @@
-export default function GameStats({ moves, pairs, time, bestScore, onBack }) {
+export default function GameStats({
+  maxMoves,
+  moves,
+  pairs,
+  time,
+  bestScore,
+  onBack,
+}) {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-2 mb-6">
       <div className="flex gap-2 sm:gap-3 sm:flex-col flex-row">
@@ -36,6 +43,10 @@ export default function GameStats({ moves, pairs, time, bestScore, onBack }) {
             <p className="text-base font-medium text-gray-800">0</p>
           )}
           <p className="text-xs text-gray-400 mt-0.5">best score</p>
+        </div>
+        <div className="bg-white border border-gray-200 px-4 py-2 rounded-xl text-center min-w-14 shadow-sm">
+          <p className="text-base font-medium text-gray-800">{maxMoves}</p>
+          <p className="text-xs text-gray-400 mt-0.5">Max Moves</p>
         </div>
       </div>
     </div>
